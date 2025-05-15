@@ -1,0 +1,110 @@
+/* 
+   Estilos padronizados para formulários em todo o sistema
+   Este arquivo define os padrões de cores, fontes e pesos para
+   os três módulos: THT, SMT e Qualidade
+*/
+
+/* Cores padrão do sistema */
+:root {
+    --form-text-color: #333333;
+    --form-label-color: #2c3e50;
+    --form-placeholder-color: #6c757d;
+    --form-border-color: #ced4da;
+    --form-focus-color: #3498db;
+    --form-focus-shadow: rgba(52, 152, 219, 0.25);
+    --form-required-color: #dc3545;
+}
+
+/* Estilos para labels de formulários */
+form label.form-label {
+    color: var(--form-label-color) !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 0.3rem !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* Estilos para campos de entrada */
+form .form-control,
+form select.form-control,
+form input.form-control,
+form textarea.form-control {
+    color: var(--form-text-color) !important;
+    font-weight: 400 !important;
+    font-size: 0.95rem !important;
+    border-color: var(--form-border-color) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* Estilos para placeholders */
+form .form-control::placeholder {
+    color: var(--form-placeholder-color) !important;
+    opacity: 0.7 !important;
+    font-weight: 400 !important;
+}
+
+/* Estilos para foco em campos */
+form .form-control:focus {
+    border-color: var(--form-focus-color) !important;
+    box-shadow: 0 0 0 0.25rem var(--form-focus-shadow) !important;
+}
+
+/* Estilo para campos somente leitura */
+form .form-control[readonly] {
+    background-color: #f8f9fa !important;
+    opacity: 1 !important;
+}
+
+/* Estilo para campos desabilitados */
+form .form-control:disabled {
+    background-color: #e9ecef !important;
+    opacity: 0.8 !important;
+}
+
+/* Indicador de campos obrigatórios */
+.required::after {
+    content: " *" !important;
+    color: var(--form-required-color) !important;
+    font-weight: 700 !important;
+}
+
+/* Formatação para grupos de controle */
+form .row .col-md-3,
+form .row .col-md-4,
+form .row .col-md-6,
+form .row .col-md-12 {
+    margin-bottom: 0.75rem !important;
+}
+
+/* Altura padronizada para títulos de seção */
+form h5 {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: var(--form-label-color) !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Botões de formulário */
+form .btn-primary {
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+}
+
+/* Ajuste de espaçamento entre botões */
+form .d-grid.gap-2 .btn {
+    margin-left: 0.5rem !important;
+}
+
+/* Estilos para selects com datalist */
+form datalist {
+    max-height: 150px !important;
+}
+
+/* Feedback de validação */
+form .invalid-feedback {
+    color: var(--form-required-color) !important;
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+    margin-top: 0.25rem !important;
+} 

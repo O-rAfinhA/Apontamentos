@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apontamento THT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../login/style.css">
+    <link rel="stylesheet" href="../login/header-style.css?v=1.5">
+    <link rel="stylesheet" href="../login/fixed-elements.css?v=1.4">
+    <link rel="stylesheet" href="../login/forms-style.css?v=1.0">
+    <style>
+        /* Ocultar botões quando o formulário estiver visível - Abordagem mais robusta */
+        body.form-active #botoesNavegacao,
+        #formCard:not([style*="display: none"]) ~ * #botoesNavegacao,
+        #formCard[style*="display: block"] ~ * #botoesNavegacao,
+        #formCard:not([style*="display: none"]) ~ #botoesNavegacao,
+        #formCard[style*="display: block"] ~ #botoesNavegacao,
+        #formCard:not([style*="display: none"]) + #botoesNavegacao,
+        #formCard[style*="display: block"] + #botoesNavegacao {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            position: absolute !important;
+            left: -9999px !important;
+            z-index: -999 !important;
+        }
+
+        /* Estilos para corrigir o layout */
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 0;
+            margin: 0;
+            position: relative;
+        }
+        
+        .container {
+            flex: 1 0 auto;
+            padding-bottom: 20px;
+            width: 100%;
+        }
+        
+        /* Estilos para o formulário */
+        #formCard {
+            margin-bottom: 30px;
+        }
+        
+        #formCard .card-body {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+        
+        /* Garantir que os botões de ação fiquem sempre visíveis */
+        #formCard .d-grid {
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            z-index: 100;
+        }
+        
+        /* Ajustes para o footer */
+        .footer {
+            flex-shrink: 0;
+            width: 100%;
+            padding: 10px 0;
+            z-index: 999;
+        }
+        
+        /* Rolagem para tabelas grandes */
+        .table-responsive {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        /* Media query para telas menores */
+        @media (max-height: 768px) {
+            #formCard .card-body {
+                max-height: calc(100vh - 150px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para o cabeçalho compartilhado -->
+    <div id="headerContainer" data-title="THT"></div>
+    
+    <div class="container mt-4">
+        <!-- Botão para iniciar registro -->
+        <div id="botoesNavegacao" class="d-flex justify-content-between mb-4">
+            <button id="btnIniciarApontamento" class="btn btn-success">Iniciar Apontamento</button>
+            <a href="../login/select-system.html" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+        
+        <!-- Tela de Apontamentos (Tabela e Paginação) -->
+        <div id="telaApontamentos">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <span>Apontamentos Registrados</span>
+                    <div>
+                        <button class="btn btn-sm btn-light" onclick="exportarXLSX()">
+                            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="tabelaApontamentos">
+                            <thead>
+                                <tr>
+                                    <th class="col-data text-center" title="Data">Data</th>
+                                    <th class="col-cliente text-center" title="Cliente">Cliente</th>
+                                    <th class="col-codigo text-center" title="Código da Placa">Código</th>
+                                    <th class="col-ocorrencia" title="Tipo de Ocorrência">Ocorrência</th>
+                                    <th class="col-tipo text-center" title="Tipo de Apontamento">Tipo</th>
+                                    <th class="col-odf text-center" title="Ordem de Fabricação">ODF</th>
+                                    <th class="col-horario text-center" title="Hora de Início">Início</th>
+                                    <th class="col-horario text-center" title="Hora de Término">Término</th>
+                                    <th class="col-qtd text-center" title="Quantidade de Peças">Qtd.</th>
+                                    <th class="col-qtd text-center" title="Quantidade de Operadores">Qtd. Oper.</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 1">Operador 1</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 2">Operador 2</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 3">Operador 3</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 4">Operador 4</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 5">Operador 5</th>
+                                    <th class="col-pessoa text-center" title="Nome do Operador 6">Operador 6</th>
+                                    <th class="col-pessoa text-center" title="Nome do Líder">Líder</th>
+                                    <th class="col-obs text-center" title="Observações">Obs</th>
+                                    <th class="col-acoes text-center" title="Ações Tomadas">Ações</th>
+                                    <th class="col-controles text-center" title="Controles de Edição">Controles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Os dados serão inseridos aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Paginação -->
+                    <nav aria-label="Navegação de página">
+                        <ul class="pagination justify-content-center" id="paginacao">
+                            <!-- Elementos de paginação serão adicionados via JavaScript -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tela de Formulário de Apontamento -->
+        <div class="card mb-4" id="formCard" style="display: none;">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span>Novo Apontamento</span>
+                <button id="btnCancelarApontamento" class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+            <div class="card-body">
+                <form id="apontamentoForm">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="data" class="form-label required">Data:</label>
+                            <input type="date" class="form-control" id="data" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente" class="form-label required">Cliente:</label>
+                            <input type="text" class="form-control" id="cliente" list="clientes-list" required>
+                            <datalist id="clientes-list">
+                                <!-- Opções serão carregadas via JavaScript -->
+                            </datalist>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="codigoPlaca" class="form-label required">Código da Placa:</label>
+                            <input type="text" class="form-control" id="codigoPlaca" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="codOcorrencia" class="form-label required">Código da Ocorrência:</label>
+                            <select class="form-control" id="codOcorrencia" required>
+                                <option value="">Selecione...</option>
+                                <!-- Opções serão carregadas via JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="tipo" class="form-label">Tipo:</label>
+                            <input type="text" class="form-control" id="tipo" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="odf" class="form-label required">ODF:</label>
+                            <input type="number" class="form-control" id="odf" required min="0">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="qtdPcs" class="form-label required">Quantidade de Peças:</label>
+                            <input type="number" class="form-control" id="qtdPcs" required min="0">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="qtdOper" class="form-label required">Quantidade de Operadores:</label>
+                            <input type="number" class="form-control" id="qtdOper" required min="1" max="6">
+                        </div>
+                    </div>
+
+                    <!-- Campos ocultos para Início e Término -->
+                    <input type="hidden" id="inicio" readonly>
+                    <input type="hidden" id="termino" readonly>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="operador1" class="form-label required">Operador 1:</label>
+                            <input type="text" class="form-control" id="operador1" list="operadores-list" required>
+                            <datalist id="operadores-list">
+                                <!-- Opções serão carregadas via JavaScript -->
+                            </datalist>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="operador2" class="form-label">Operador 2:</label>
+                            <input type="text" class="form-control operador-adicional" id="operador2" list="operadores-list">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="operador3" class="form-label">Operador 3:</label>
+                            <input type="text" class="form-control operador-adicional" id="operador3" list="operadores-list">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="operador4" class="form-label">Operador 4:</label>
+                            <input type="text" class="form-control operador-adicional" id="operador4" list="operadores-list">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="operador5" class="form-label">Operador 5:</label>
+                            <input type="text" class="form-control operador-adicional" id="operador5" list="operadores-list">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="operador6" class="form-label">Operador 6:</label>
+                            <input type="text" class="form-control operador-adicional" id="operador6" list="operadores-list">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="lider" class="form-label required">Líder:</label>
+                            <input type="text" class="form-control" id="lider" list="lideres-list" required>
+                            <datalist id="lideres-list">
+                                <!-- Opções serão carregadas via JavaScript -->
+                            </datalist>
+                        </div>
+                        <div class="col-md-8">
+                            <label for="observacao" class="form-label">Observação:</label>
+                            <input type="text" class="form-control" id="observacao">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="acoes" class="form-label">Ações:</label>
+                            <input type="text" class="form-control" id="acoes">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">Salvar Apontamento</button>
+                        <button type="reset" class="btn btn-secondary">Limpar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <span class="text-muted developer-credit">Desenvolvido por Rafa Correia</span>
+                <span class="text-muted">Agilux © - Sistema de Apontamento THT 2025</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="../login/header.js?v=1.3"></script>
+    <script>
+        // Função executada quando o documento estiver completamente carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Observar mudanças no estilo do formCard
+            const formCard = document.getElementById('formCard');
+            const botoesNavegacao = document.getElementById('botoesNavegacao');
+            
+            // Função para verificar se o formulário está visível e ocultar os botões
+            function verificarVisibilidadeForm() {
+                if (formCard.style.display !== 'none') {
+                    document.body.classList.add('form-active');
+                    if (botoesNavegacao) {
+                        botoesNavegacao.style.cssText = 'display: none !important; visibility: hidden !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; position: absolute !important; left: -9999px !important; z-index: -999 !important;';
+                    }
+                } else {
+                    document.body.classList.remove('form-active');
+                    if (botoesNavegacao) {
+                        botoesNavegacao.style.cssText = 'display: flex !important; visibility: visible !important; height: auto !important; opacity: 1 !important; pointer-events: auto !important; position: relative !important; left: auto !important; z-index: auto !important;';
+                    }
+                }
+            }
+            
+            // Verificar imediatamente e também a cada 100ms como backup
+            verificarVisibilidadeForm();
+            setInterval(verificarVisibilidadeForm, 100);
+            
+            // Observer para mudanças no atributo style
+            const observer = new MutationObserver(verificarVisibilidadeForm);
+            observer.observe(formCard, { attributes: true, attributeFilter: ['style'] });
+            
+            // Adicionar handlers para eventos diretamente nos botões
+            document.getElementById('btnIniciarApontamento').addEventListener('click', function() {
+                if (botoesNavegacao) {
+                    botoesNavegacao.style.cssText = 'display: none !important; visibility: hidden !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; position: absolute !important; left: -9999px !important; z-index: -999 !important;';
+                }
+                document.body.classList.add('form-active');
+            });
+            
+            document.getElementById('btnCancelarApontamento').addEventListener('click', function() {
+                if (botoesNavegacao) {
+                    botoesNavegacao.style.cssText = 'display: flex !important; visibility: visible !important; height: auto !important; opacity: 1 !important; pointer-events: auto !important; position: relative !important; left: auto !important; z-index: auto !important;';
+                }
+                document.body.classList.remove('form-active');
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,447 @@
+/* Cor principal do sistema - exatamente como no SMT */
+:root {
+    --cor-principal: #3498db;
+    --cor-principal-hover: #2980b9;
+    --cor-principal-light: rgba(52, 152, 219, 0.1);
+    --background-azul-tabela: rgba(52, 152, 219, 0.08); /* Mesmo valor do SMT para padronização */
+}
+
+/* Estilos do cabeçalho para garantir padronização */
+.header-container {
+    height: 70px !important;
+    background-color: #1a1e21;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header-container .d-flex {
+    height: 100%;
+    align-items: center;
+    position: relative;
+    justify-content: flex-start;
+}
+
+.header-logo {
+    height: 45px;
+    width: auto;
+    position: relative;
+    margin-right: 15px;
+}
+
+.header-title {
+    color: #ffffff;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Resetando alguns estilos globais */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 60px; /* Espaço fixo para o rodapé */
+    position: relative;
+}
+
+/* Estilos para o conteúdo principal */
+.container {
+    max-width: 1400px;
+    flex: 1 0 auto;
+}
+
+/* Estilos para o rodapé */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50px;  /* Altura fixa padronizada */
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.footer .container {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 100%;
+}
+
+.footer .d-flex {
+    height: 100%;
+    align-items: center;
+}
+
+/* Estilo específico para os botões de navegação */
+#botoesNavegacao {
+    position: relative;
+    z-index: 500;
+}
+
+/* Estilo para quando o formulário está ativo */
+body.form-active #botoesNavegacao {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    z-index: -999 !important;
+}
+
+/* Estilo específico para o nome do desenvolvedor */
+.developer-credit {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Estilos de tabela com rolagem horizontal */
+.table-responsive {
+    border-radius: 8px;
+    overflow-x: auto;
+    overflow-y: visible;
+    max-width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
+}
+
+#tabelaApontamentos {
+    margin-bottom: 0;
+    border-collapse: collapse !important;
+    table-layout: fixed;
+    width: 100%;
+    min-width: 2400px;
+    border: 1px solid #dee2e6;
+}
+
+/* REGRA CRÍTICA - Forçar estilo do cabeçalho da tabela */
+#tabelaApontamentos thead th,
+table#tabelaApontamentos thead th,
+table#tabelaApontamentos > thead > tr > th,
+.table#tabelaApontamentos thead th {
+    background-color: var(--background-azul-tabela) !important;
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    padding: 8px 8px !important;
+    line-height: 1.2 !important;
+    text-transform: capitalize !important;
+    border: 1px solid #dee2e6 !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+/* Ajuste específico para o cabeçalho da tabela */
+#tabelaApontamentos thead {
+    background-color: transparent;
+}
+
+#tabelaApontamentos thead tr {
+    height: 48px;
+}
+
+/* Ajuste para o texto do cabeçalho */
+#tabelaApontamentos thead th {
+    color: #2c3e50 !important;
+}
+
+#tabelaApontamentos tbody td {
+    padding: 6px 8px;
+    line-height: 1.2;
+    font-size: 0.9rem;
+    min-height: auto;
+    vertical-align: middle;
+    border: 1px solid #dee2e6 !important;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+/* Estilo específico para o cabeçalho da coluna Operação */
+#tabelaApontamentos th.col-ocorrencia {
+    text-transform: capitalize !important;
+}
+
+/* Alinhamento específico para coluna de ocorrência */
+#tabelaApontamentos .col-ocorrencia,
+#tabelaApontamentos td:nth-child(4) {
+    text-align: left !important;
+    text-transform: uppercase !important;
+}
+
+/* Larguras específicas para certos tipos de campos */
+.col-data { width: 120px; }
+.col-cliente { width: 180px; }
+.col-codigo { width: 120px; }
+.col-ocorrencia { width: 250px; }
+.col-tipo { width: 150px; }
+.col-odf { width: 120px; }
+.col-horario { width: 120px; }
+.col-qtd { width: 120px; }
+.col-pessoa { width: 150px; }
+.col-obs { width: 100px; }
+.col-acoes { width: 100px; }
+.col-controles { width: 120px; }
+
+/* Ajustes para o header da tabela quando tem scroll */
+.table-header-sticky {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+
+/* Estilos para o indicador de observações */
+.obs-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 36px;
+}
+
+.obs-indicator i {
+    color: #6c757d;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.obs-indicator i:hover {
+    color: var(--cor-principal);
+}
+
+.obs-empty {
+    width: 100%;
+    text-align: center;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-style: italic;
+}
+
+/* Estilo para badges de tipo */
+.badge-tipo {
+    display: inline-block;
+    padding: 3px 1px;
+    border-radius: 3px;
+    font-weight: 500;
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.badge-programada {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.badge-imprevista {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Estilo para botões na tabela */
+.controls-buttons {
+    white-space: nowrap;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px; /* Mantém o espaçamento padrão */
+}
+
+.controls-buttons .btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin: 0 2px; /* Garantir espaçamento lateral consistente */
+}
+
+/* Estilo para paginação */
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination .page-link {
+    color: var(--cor-principal);
+    border-radius: 4px;
+    margin: 0 3px;
+    border: 1px solid #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+    color: white;
+}
+
+/* Estilo para o cabeçalho do card - exatamente igual ao SMT */
+.card-header,
+.card > .card-header,
+div.card-header,
+.card-header.bg-primary {
+    background-color: #3498db !important;
+    background: #3498db !important;
+    color: white !important;
+    font-weight: normal !important;
+    padding: 15px !important;
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* REGRA CRÍTICA - Forçar estilo do texto "Apontamentos Registrados" */
+.card-header span,
+.card-header > span,
+.bg-primary span {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    font-family: inherit !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+/* Tooltip para observações */
+.tooltip-custom {
+    position: fixed;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    padding: 15px;
+    z-index: 9999;
+    width: 300px;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-custom.active {
+    display: block;
+    opacity: 1;
+}
+
+.tooltip-header {
+    font-weight: 600;
+    color: var(--cor-principal);
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.tooltip-body {
+    line-height: 1.5;
+}
+
+.tooltip-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.tooltip-value {
+    color: #212529;
+    margin-bottom: 10px;
+    display: block;
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Estilo específico para linhas da tabela */
+#tabelaApontamentos.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8f9fa !important;
+}
+
+#tabelaApontamentos.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #ffffff !important;
+}
+
+#tabelaApontamentos.table-hover tbody tr:hover {
+    background-color: var(--cor-principal-light) !important;
+}
+
+/* Título principal da página */
+h1.text-center {
+    color: var(--cor-principal);
+    font-weight: 600;
+}
+
+/* Estilos para controle de operadores adicionais */
+.operador-adicional:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+/* Indicador de campos obrigatórios */
+.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* Botões estilizados */
+.btn-primary {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-principal-hover);
+    border-color: var(--cor-principal-hover);
+}
+
+/* Focus em campos de formulário */
+.form-control:focus {
+    border-color: var(--cor-principal);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Padronização de bordas para todas as células - igual ao SMT */
+.table td, 
+.table th,
+#tabelaApontamentos td,
+#tabelaApontamentos th {
+    vertical-align: middle;
+    border: 1px solid #dee2e6 !important;
+    padding: 8px 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#tabelaApontamentos {
+    border-collapse: collapse !important;
+    table-layout: fixed;
+    width: 100%;
+} 

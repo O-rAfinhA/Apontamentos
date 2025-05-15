@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apontamento - Seleção de Sistema</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="header-style.css?v=1.2">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="fixed-elements.css?v=1.1">
+</head>
+<body>
+    <!-- Container para o cabeçalho compartilhado -->
+    <div id="headerContainer" data-title="Seleção" data-login="true"></div>
+    
+    <div class="container mt-4 system-selection-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10">
+                <div class="card login-card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span>Seleção de Sistema</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i><span id="currentUsername">Usuário</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="#" id="adminPanelLink"><i class="bi bi-gear me-2"></i>Painel de Administração</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutLink"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <h2>Selecione o Sistema</h2>
+                            <p class="text-muted">Escolha o sistema que deseja acessar</p>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card system-selection-card" data-system="tht">
+                                    <div class="card-body text-center p-4">
+                                        <div class="system-icon text-primary">
+                                            <i class="bi bi-cpu"></i>
+                                        </div>
+                                        <h4>THT</h4>
+                                        <p class="text-muted mb-0">Sistema de Apontamento THT</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card system-selection-card" data-system="smt">
+                                    <div class="card-body text-center p-4">
+                                        <div class="system-icon text-success">
+                                            <i class="bi bi-motherboard"></i>
+                                        </div>
+                                        <h4>SMT</h4>
+                                        <p class="text-muted mb-0">Sistema de Apontamento SMT</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card system-selection-card" data-system="qualidade">
+                                    <div class="card-body text-center p-4">
+                                        <div class="system-icon text-info">
+                                            <i class="bi bi-check-circle"></i>
+                                        </div>
+                                        <h4>Qualidade</h4>
+                                        <p class="text-muted mb-0">Sistema de Qualidade</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé padronizado -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <span class="text-muted developer-credit">Desenvolvido por Rafa Correia</span>
+                <span class="text-muted">Agilux © - Sistema de Apontamento 2025</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Painel de Administração -->
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="adminModalLabel">Painel de Administração</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Usuários</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="false">Aprovações Pendentes</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content p-3" id="adminTabsContent">
+                        <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuário</th>
+                                            <th>Função</th>
+                                            <th>Data de Criação</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <!-- Será preenchido via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                            <div id="pendingUsersContainer">
+                                <!-- Será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header.js?v=1.1"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário está logado
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Exibir nome do usuário
+            document.getElementById('currentUsername').textContent = currentUser.username;
+            
+            // Ocultar link de administração para usuários que não são admin
+            if (currentUser.role !== 'admin') {
+                document.getElementById('adminPanelLink').classList.add('d-none');
+            }
+            
+            // Configurar link de logout
+            document.getElementById('logoutLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+            
+            // Configurar link do painel de administração
+            document.getElementById('adminPanelLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                loadAdminData();
+                const adminModal = new bootstrap.Modal(document.getElementById('adminModal'));
+                adminModal.show();
+            });
+            
+            // Configurar seleção de sistema
+            const systemCards = document.querySelectorAll('.system-selection-card');
+            systemCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const system = this.getAttribute('data-system');
+                    window.location.href = `../${system}/index.html`;
+                });
+            });
+        });
+        
+        // Carregar dados para o painel de administração
+        function loadAdminData() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Preencher tabela de usuários
+            const usersTableBody = document.getElementById('usersTableBody');
+            usersTableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                const statusBadge = user.approved 
+                    ? '<span class="badge bg-success">Aprovado</span>' 
+                    : '<span class="badge bg-warning text-dark">Pendente</span>';
+                
+                const roleBadge = user.role === 'admin' 
+                    ? '<span class="badge bg-danger">Admin</span>' 
+                    : '<span class="badge bg-secondary">Usuário</span>';
+                
+                const date = new Date(user.createdAt).toLocaleDateString('pt-BR');
+                
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${roleBadge}</td>
+                    <td>${date}</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        ${user.role !== 'admin' ? `
+                            <button class="btn btn-sm btn-${user.approved ? 'warning' : 'success'} me-1 toggle-approval" data-user-id="${user.id}">
+                                ${user.approved ? 'Desaprovar' : 'Aprovar'}
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-user" data-user-id="${user.id}">
+                                Excluir
+                            </button>
+                        ` : '<span class="text-muted">Admin não pode ser alterado</span>'}
+                    </td>
+                `;
+                
+                usersTableBody.appendChild(row);
+            });
+            
+            // Configurar botões de aprovação e exclusão
+            document.querySelectorAll('.toggle-approval').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-user-id'));
+                    toggleUserApproval(userId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-user-id'));
+                    deleteUser(userId);
+                });
+            });
+            
+            // Mostrar usuários pendentes de aprovação
+            const pendingUsers = users.filter(u => !u.approved && u.role !== 'admin');
+            const pendingUsersContainer = document.getElementById('pendingUsersContainer');
+            
+            if (pendingUsers.length === 0) {
+                pendingUsersContainer.innerHTML = '<div class="alert alert-info">Não há usuários aguardando aprovação.</div>';
+            } else {
+                pendingUsersContainer.innerHTML = '';
+                
+                pendingUsers.forEach(user => {
+                    const card = document.createElement('div');
+                    card.className = 'card mb-3';
+                    
+                    const date = new Date(user.createdAt).toLocaleDateString('pt-BR');
+                    const time = new Date(user.createdAt).toLocaleTimeString('pt-BR');
+                    
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">${user.username}</h5>
+                                    <p class="card-text text-muted">Cadastrado em: ${date} às ${time}</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-success me-2 approve-pending" data-user-id="${user.id}">
+                                        <i class="bi bi-check-lg me-1"></i>Aprovar
+                                    </button>
+                                    <button class="btn btn-danger delete-pending" data-user-id="${user.id}">
+                                        <i class="bi bi-x-lg me-1"></i>Recusar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    pendingUsersContainer.appendChild(card);
+                });
+                
+                // Configurar botões de aprovação e recusa
+                document.querySelectorAll('.approve-pending').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = parseInt(this.getAttribute('data-user-id'));
+                        toggleUserApproval(userId);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-pending').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = parseInt(this.getAttribute('data-user-id'));
+                        deleteUser(userId);
+                    });
+                });
+            }
+        }
+        
+        // Alternar aprovação de usuário
+        function toggleUserApproval(userId) {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const userIndex = users.findIndex(u => u.id === userId);
+            if (userIndex !== -1) {
+                users[userIndex].approved = !users[userIndex].approved;
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Recarregar dados
+                loadAdminData();
+            }
+        }
+        
+        // Excluir usuário
+        function deleteUser(userId) {
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                
+                const filteredUsers = users.filter(u => u.id !== userId);
+                localStorage.setItem('users', JSON.stringify(filteredUsers));
+                
+                // Recarregar dados
+                loadAdminData();
+            }
+        }
+    </script>
+</body>
+</html> 
